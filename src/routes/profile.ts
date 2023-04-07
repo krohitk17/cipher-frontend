@@ -31,3 +31,16 @@ export const getUser = async (token: string) => {
     return error.response.data;
   }
 };
+
+export const updateUser = async (token: string, updatedUser: {}) => {
+  try {
+    const response = await axios.patch(baseurl, updatedUser, {
+      headers: {
+        Authorization: "Bearer " + token,
+      },
+    });
+    return response.data;
+  } catch (error: any) {
+    return error.response.data;
+  }
+};

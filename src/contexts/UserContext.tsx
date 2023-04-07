@@ -1,6 +1,7 @@
 import { useState, createContext } from "react";
 
 class User {
+  token: string;
   name: string;
   email: string;
   followers: string[];
@@ -16,6 +17,7 @@ class User {
     website: string;
   };
   constructor() {
+    this.token = "";
     this.name = "";
     this.email = "";
     this.followers = [];

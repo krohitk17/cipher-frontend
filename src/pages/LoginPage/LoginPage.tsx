@@ -3,11 +3,18 @@ import { useState } from "react";
 import Overlay from "../../components/Overlay";
 import SubmitButton from "../../components/SubmitButton";
 import InputField from "../../components/InputField";
-import { loginUser } from "../../routes/login";
+import { loginUser } from "../../routes/auth";
+import { FormControl } from "@chakra-ui/react";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  const token = localStorage.getItem("token");
+
+  if (token) {
+    window.location.href = "/profile";
+  }
 
   const loginButtonHandler = async () => {
     const userToken = await loginUser(email, password);
@@ -27,20 +34,25 @@ export default function LoginPage() {
       onClose={() => {}}
       title="Login"
     >
-      <InputField
-        placeholder="Email"
-        type="email"
-        onChange={(e) => {
-          setEmail(e.target.value);
-        }}
-      />
-      <InputField
-        placeholder="Password"
-        type="password"
-        onChange={(e) => {
-          setPassword(e.target.value);
-        }}
-      />
+      <FormControl>
+        <InputField
+          value="Email"
+          type="email"
+          onChange={(e) => {
+            setEmail(e.target.value);
+          }}
+        >
+          Email
+        </InputField>
+        <InputField
+          type="password"
+          onChange={(e) => {
+            setPassword(e.target.value);
+          }}
+        >
+          Password
+        </InputField>
+      </FormControl>
       <SubmitButton onClickHandler={loginButtonHandler}>Login</SubmitButton>
       <p>
         Not Registered,{" "}

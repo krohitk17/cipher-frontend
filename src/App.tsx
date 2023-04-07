@@ -11,13 +11,11 @@ export default function App() {
   return (
     <ChakraProvider>
       <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<LoginPage />} />
-          <Route path="/register" element={<RegisterPage />} />
-          <Route path="*">404 Not Found</Route>
-        </Routes>
         <UserProvider>
           <Routes>
+            <Route path="/" element={<LoginPage />} />
+            <Route path="/register" element={<RegisterPage />} />
+            <Route path="*">404 Not Found</Route>
             <Route path="/profile" element={<ProfilePage />} />
           </Routes>
         </UserProvider>

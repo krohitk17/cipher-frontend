@@ -1,23 +1,32 @@
-import { Input } from "@chakra-ui/react";
+import { FormLabel, Input } from "@chakra-ui/react";
 
 export default function InputField({
   className,
-  placeholder,
-  type,
+  children,
+  type = "text",
   onChange,
+  disabled,
+  value,
 }: {
   className?: string;
-  placeholder?: string;
+  children: any;
   type?: string;
   onChange: (e: any) => void;
+  disabled?: boolean;
+  value?: string;
 }) {
   return (
-    <Input
-      className={className}
-      onChange={onChange}
-      placeholder={placeholder}
-      type={type}
-      bgColor={"white"}
-    />
+    <>
+      <FormLabel className="pt-2">{children}</FormLabel>
+      <Input
+        className={className}
+        onChange={onChange}
+        placeholder="Enter"
+        type={type}
+        bgColor={"white"}
+        disabled={disabled}
+        defaultValue={value}
+      />
+    </>
   );
 }
