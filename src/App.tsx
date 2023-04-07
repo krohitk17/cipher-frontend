@@ -6,10 +6,12 @@ import { UserProvider } from "./contexts/UserContext";
 import LoginPage from "./pages/LoginPage/LoginPage";
 import RegisterPage from "./pages/RegisterPage/RegisterPage";
 import ProfilePage from "./pages/ProfilePage/ProfilePage";
+import Navbar from "./pages/ProfilePage/components/Navbar";
 
 export default function App() {
   return (
     <ChakraProvider>
+      <Navbar />
       <BrowserRouter>
         <UserProvider>
           <Routes>

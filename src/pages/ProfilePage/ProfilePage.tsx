@@ -72,35 +72,30 @@ export default function ProfilePage() {
 
   return (
     <>
-      <Navbar>
-        <UserCreds
-          email={user.user.email}
-          name={user.user.name}
-          avatar={user.user.avatar}
-          followers={user.user.followers}
-        />
+      <UserCreds>
         <div className="flex flex-col gap-5">
           <SubmitButton onClickHandler={logoutButtonHandler}>
             Logout
           </SubmitButton>
+
           <SubmitButton onClickHandler={() => setOverlay(true)}>
             Change Avatar
           </SubmitButton>
         </div>
+      </UserCreds>
 
-        <Overlay
-          show={overlay}
-          onClose={() => {
-            setOverlay(false);
-          }}
-          title="Change Profile Picture"
-        >
-          <FormControl>
-            <FormLabel>Select Image</FormLabel>
-            <Input type="file" />
-          </FormControl>
-        </Overlay>
-      </Navbar>
+      <Overlay
+        show={overlay}
+        onClose={() => {
+          setOverlay(false);
+        }}
+        title="Change Profile Picture"
+      >
+        <FormControl>
+          <FormLabel>Select Image</FormLabel>
+          <Input type="file" />
+        </FormControl>
+      </Overlay>
 
       <FieldLabel
         label="About"
