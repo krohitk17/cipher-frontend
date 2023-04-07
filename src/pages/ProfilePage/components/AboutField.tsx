@@ -11,8 +11,10 @@ export default function AboutField({
 }) {
   return (
     <Textarea
+      _disabled={{
+        textColor: "black",
+      }}
       maxLength={150}
-      className="text-black"
       disabled={disabled}
       value={value}
       onChange={(e) => {

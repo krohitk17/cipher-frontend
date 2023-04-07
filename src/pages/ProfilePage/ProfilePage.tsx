@@ -27,18 +27,15 @@ export default function ProfilePage() {
   const [socialsEdit, setSocialsEdit] = useState(false);
 
   useEffect(() => {
-    async function fetchUser(token: string) {
+    const fetchUser = async (token: string) => {
       const User = await getUser(token);
       if (User.error) {
         localStorage.removeItem("token");
         window.location.href = "/";
       } else {
         user.setUser({ ...User, token });
-        setAbout(user.user.description);
-        setSocials(user.user.socials);
       }
-    }
-    if (user.user.email) return;
+    };
     const token = localStorage.getItem("token");
     if (!token) {
       alert("Please Login First!");
@@ -48,6 +45,11 @@ export default function ProfilePage() {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useEffect(() => {
+    setAbout(user.user.description);
+    setSocials(user.user.socials);
+  }, [user]);
 
   const submitHandler = async (
     setEdit: (value: boolean) => void,

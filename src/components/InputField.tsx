@@ -19,6 +19,9 @@ export default function InputField({
     <>
       <FormLabel className="pt-2">{children}</FormLabel>
       <Input
+        _disabled={{
+          textColor: "black",
+        }}
         className={className}
         onChange={onChange}
         placeholder="Enter"

@@ -4,7 +4,6 @@ import Overlay from "../../components/Overlay";
 import SubmitButton from "../../components/SubmitButton";
 import InputField from "../../components/InputField";
 import { loginUser } from "../../routes/auth";
-import { FormControl } from "@chakra-ui/react";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
@@ -34,25 +33,24 @@ export default function LoginPage() {
       onClose={() => {}}
       title="Login"
     >
-      <FormControl>
-        <InputField
-          value="Email"
-          type="email"
-          onChange={(e) => {
-            setEmail(e.target.value);
-          }}
-        >
-          Email
-        </InputField>
-        <InputField
-          type="password"
-          onChange={(e) => {
-            setPassword(e.target.value);
-          }}
-        >
-          Password
-        </InputField>
-      </FormControl>
+      <InputField
+        type="email"
+        onChange={(e) => {
+          setEmail(e.target.value);
+        }}
+      >
+        Email
+      </InputField>
+
+      <InputField
+        type="password"
+        onChange={(e) => {
+          setPassword(e.target.value);
+        }}
+      >
+        Password
+      </InputField>
+
       <SubmitButton onClickHandler={loginButtonHandler}>Login</SubmitButton>
       <p>
         Not Registered,{" "}
