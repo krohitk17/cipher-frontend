@@ -14,7 +14,8 @@ export default function SubmitButton({
     <Button
       type="submit"
       onClick={onClickHandler}
-      className={" bg-blue-500 " + className}
+      className={className}
+      colorScheme="blue"
     >
       {children}
     </Button>

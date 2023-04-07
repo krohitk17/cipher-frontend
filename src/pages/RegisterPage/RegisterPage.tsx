@@ -18,6 +18,9 @@ export default function LoginPage() {
       alert(token.error.message);
     } else {
       auth.setAuth(token.token);
+      alert("Registration Successful!");
+      // redirect to login page
+      window.location.href = "/";
     }
   };
 

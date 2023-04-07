@@ -17,6 +17,7 @@ export default function InputField({
       onChange={onChange}
       placeholder={placeholder}
       type={type}
+      bgColor={"white"}
     />
   );
 }

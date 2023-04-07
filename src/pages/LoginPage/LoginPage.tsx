@@ -17,6 +17,7 @@ export default function LoginPage() {
       alert(token.error.message);
     } else {
       auth.setAuth(token.token);
+      alert("Login Successful!");
     }
   };
 
