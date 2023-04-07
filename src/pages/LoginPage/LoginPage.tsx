@@ -27,12 +27,7 @@ export default function LoginPage() {
   };
 
   return (
-    <Overlay
-      show={true}
-      className="flex flex-col p-5 gap-5"
-      onClose={() => {}}
-      title="Login"
-    >
+    <Overlay show={true} onClose={() => {}} title="Login">
       <InputField
         type="email"
         onChange={(e) => {
@@ -51,7 +46,9 @@ export default function LoginPage() {
         Password
       </InputField>
 
-      <SubmitButton onClickHandler={loginButtonHandler}>Login</SubmitButton>
+      <SubmitButton onClickHandler={loginButtonHandler} className="w-full my-5">
+        Login
+      </SubmitButton>
       <p>
         Not Registered,{" "}
         <a href="/register" className="text-blue-500">

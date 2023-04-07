@@ -15,7 +15,7 @@ export default function Overlay({
 }) {
   return (
     <Modal isOpen={show} onClose={onClose} isCentered>
-      <ModalContent className="p-5">
+      <ModalContent className="px-5 pb-5">
         <ModalHeader>{title}</ModalHeader>
         <div className={className}>{children}</div>
       </ModalContent>
