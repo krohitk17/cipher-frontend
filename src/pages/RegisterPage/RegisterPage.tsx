@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useState } from "react";
 
 import Overlay from "../../components/Overlay";
 import SubmitButton from "../../components/SubmitButton";
@@ -16,13 +16,17 @@ export default function LoginPage() {
       alert(user.error.message);
     } else {
       alert("Registration Successful!");
-      // redirect to login page
       window.location.href = "/";
     }
   };
 
   return (
-    <Overlay show={true} className="flex flex-col p-5 gap-5" onHide={() => {}}>
+    <Overlay
+      show={true}
+      className="flex flex-col p-5 gap-5"
+      onClose={() => {}}
+      title="Register"
+    >
       <InputField
         placeholder="Name"
         type="text"

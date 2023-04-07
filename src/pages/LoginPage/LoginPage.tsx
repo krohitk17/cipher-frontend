@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useState } from "react";
 
 import Overlay from "../../components/Overlay";
 import SubmitButton from "../../components/SubmitButton";
@@ -21,7 +21,12 @@ export default function LoginPage() {
   };
 
   return (
-    <Overlay show={true} className="flex flex-col p-5 gap-5" onHide={() => {}}>
+    <Overlay
+      show={true}
+      className="flex flex-col p-5 gap-5"
+      onClose={() => {}}
+      title="Login"
+    >
       <InputField
         placeholder="Email"
         type="email"

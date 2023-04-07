@@ -1,26 +1,24 @@
-import { Modal } from "react-overlays";
+import { Modal, ModalContent, ModalHeader } from "@chakra-ui/react";
 
 export default function Overlay({
   children,
   show,
-  onHide,
+  onClose,
   className,
+  title,
 }: {
   children: any;
   show: boolean;
-  onHide: () => void;
+  onClose: () => void;
   className?: string;
+  title?: string;
 }) {
   return (
-    <Modal
-      className="bg-gray-200 rounded-xl fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
-      show={show}
-      onHide={onHide}
-      renderBackdrop={(props) => (
-        <div className="fixed inset-0 bg-black opacity-50" {...props} />
-      )}
-    >
-      <div className={className}>{children}</div>
+    <Modal isOpen={show} onClose={onClose} isCentered>
+      <ModalContent>
+        <ModalHeader>{title}</ModalHeader>
+        <div className={className}>{children}</div>
+      </ModalContent>
     </Modal>
   );
 }

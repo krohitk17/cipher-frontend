@@ -1,6 +1,8 @@
 import { useContext, useEffect } from "react";
+
 import { UserContext } from "../../contexts/UserContext";
 import { getUser } from "../../routes/profile";
+import UserCreds from "./components/UserCreds";
 
 export default function ProfilePage() {
   const user = useContext(UserContext);
@@ -10,10 +12,12 @@ export default function ProfilePage() {
       const User = await getUser(token);
       if (User.error) {
         alert(User.error.message);
+        window.location.href = "/";
       } else {
         user.setUser(User);
       }
     }
+    if (user.user.email) return;
     const token = localStorage.getItem("token");
     if (!token) {
       alert("Please Login First!");
@@ -21,11 +25,6 @@ export default function ProfilePage() {
     } else {
       fetchUser(token);
     }
-  });
-  return (
-    <>
-      <h1>{user.user.name}</h1>
-      <h1>{user.user.email}</h1>
-    </>
-  );
+  }, [user]);
+  return <UserCreds />;
 }
