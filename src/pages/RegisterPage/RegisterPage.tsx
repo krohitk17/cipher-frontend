@@ -1,23 +1,20 @@
 import { useContext, useState } from "react";
 
-import { AuthContext } from "../../contexts/AuthContext";
 import Overlay from "../../components/Overlay";
 import SubmitButton from "../../components/SubmitButton";
 import InputField from "../../components/InputField";
 import { registerUser } from "../../routes/profile";
 
 export default function LoginPage() {
-  const auth = useContext(AuthContext);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const registerButtonHandler = async () => {
-    const token = await registerUser(name, email, password);
-    if (token.error) {
-      alert(token.error.message);
+    const user = await registerUser(name, email, password);
+    if (user.error) {
+      alert(user.error.message);
     } else {
-      auth.setAuth(token.token);
       alert("Registration Successful!");
       // redirect to login page
       window.location.href = "/";

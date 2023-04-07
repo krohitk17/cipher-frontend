@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const baseurl = process.env.REACT_APP_BACKEND_URL;
+const baseurl = process.env.REACT_APP_BACKEND_URL + "/profile";
 
 export const registerUser = async (
   name: string,
@@ -8,7 +8,7 @@ export const registerUser = async (
   password: string
 ) => {
   try {
-    const response = await axios.post(baseurl + "/profile", {
+    const response = await axios.post(baseurl, {
       name,
       email,
       password,
@@ -19,13 +19,11 @@ export const registerUser = async (
   }
 };
 
-export const loginUser = async (email: string, password: string) => {
-  console.log(baseurl);
+export const getUser = async (token: string) => {
   try {
-    const response = await axios.get(baseurl + "/login", {
+    const response = await axios.get(baseurl, {
       headers: {
-        email,
-        password,
+        Authorization: "Bearer " + token,
       },
     });
     return response.data;

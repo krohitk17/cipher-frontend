@@ -35,16 +35,14 @@ class User {
 
 export const UserContext = createContext({
   user: new User(),
-  setUser: (user: { user: User }) => {},
+  setUser: (user: User) => {},
 });
 
 export function UserProvider({ children }: { children: any }) {
-  const [user, setUser] = useState({
-    user: new User(),
-  });
+  const [user, setUser] = useState(new User());
 
   const context = {
-    ...user,
+    user,
     setUser: setUser,
   };
 
