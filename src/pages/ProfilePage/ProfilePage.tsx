@@ -1,4 +1,5 @@
 import { useContext, useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 
 import UserCreds from "./components/UserCreds";
 import SubmitButton from "../../components/SubmitButton";
@@ -6,61 +7,49 @@ import AboutField from "./components/AboutField";
 import SocialsField from "./components/SocialsField";
 import FieldLabel from "./components/FieldLabel";
 import { getUser, updateUser } from "../../routes/profile";
-import { useParams } from "react-router-dom";
-import { UserContext } from "../../contexts/UserContext";
+import { User, UserContext } from "../../contexts/UserContext";
 
 export default function ProfilePage() {
-  const host = useContext(UserContext).user;
-  const [user, setUser] = useState({
-    name: "",
-    username: "",
-    description: "",
-    socials: {
-      github: "",
-      linkedin: "",
-      facebook: "",
-      twitter: "",
-      instagram: "",
-      website: "",
-    },
-    followers: [],
-    following: [],
-  });
+  const host = useContext(UserContext);
+  const [user, setUser] = useState(new User());
   const id = useParams().id;
 
   useEffect(() => {
-    const fetchUser = async (token: string) => {
-      const User = await getUser(token, id);
-      if (User.error) {
-        alert(User.error.message);
-        window.location.href = "/";
+    console.log(host);
+    (async () => {
+      if (host.user.token) {
+        const User = await getUser(host.user.token, id);
+        if (User.error) {
+          alert(User.error.message);
+          window.location.href = "/";
+        } else {
+          setUser({ ...User });
+        }
       } else {
-        setUser({ ...User, token });
+        alert("Please Login First!");
+        window.location.href = "/";
       }
-    };
-    if (host.token) {
-      fetchUser(host.token);
-    } else {
-      alert("Please Login First!");
-      window.location.href = "/";
-    }
+    })();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const followHandler = async () => {
     console.log("Follow");
-    const followers = host.followers;
-    if (followers.includes(id!)) {
-      const index = followers.indexOf(id!);
-      followers.splice(index, 1);
+    const following = host.user.following;
+    if (following.includes(id!)) {
+      const index = following.indexOf(id!);
+      following.splice(index, 1);
     } else {
-      followers.push(id!);
+      following.push(id!);
     }
-    const updatedUser = await updateUser(host.token, {
-      followers: followers,
+    const updatedUser = await updateUser(host.user.token, {
+      following: following,
     });
+    console.log(updatedUser);
     if (updatedUser.error) {
       alert(updatedUser.error);
+    } else {
+      host.setUser({ ...host.user, following: updatedUser.following });
     }
   };
 
@@ -68,7 +57,7 @@ export default function ProfilePage() {
     <>
       <UserCreds user={user}>
         <SubmitButton onClick={followHandler}>
-          {host.followers.includes(id!) ? "Unfollow" : "Follow"}
+          {host.user.following.includes(id!) ? "Unfollow" : "Follow"}
         </SubmitButton>
       </UserCreds>
 

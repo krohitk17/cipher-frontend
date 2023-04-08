@@ -25,7 +25,7 @@ export default function ChangeAvatar({
   return (
     <Overlay isOpen={isOpen} onClose={onClose} title="Change Profile Picture">
       <FormControl className="flex flex-col gap-5">
-        <Input type="file" variant="unstyled" placeholder="Select Image" />
+        <Input type="file" variant="filled" placeholder="Select Image" />
         <SubmitButton onClick={setAvatarHandler}>Submit</SubmitButton>
       </FormControl>
     </Overlay>

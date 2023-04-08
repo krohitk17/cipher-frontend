@@ -1,13 +1,14 @@
+import { useContext, useState } from "react";
 import { FormControl } from "@chakra-ui/react";
-import { BsEnvelopeFill, BsPersonFill } from "react-icons/bs";
+import { BsPersonFill, BsPersonFillLock } from "react-icons/bs";
+
 import InputField from "./InputField";
 import Overlay from "./Overlay";
 import SubmitButton from "./SubmitButton";
-import { useContext, useState } from "react";
-import { updateUser } from "../routes/profile";
 import { UserContext } from "../contexts/UserContext";
+import { changePassword } from "../routes/auth";
 
-export default function ChangeDetails({
+export default function ChangePassword({
   onClose,
   isOpen,
 }: {
@@ -15,23 +16,12 @@ export default function ChangeDetails({
   isOpen: boolean;
 }) {
   const user = useContext(UserContext);
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-
-  const submitHandler = async (data: any) => {
-    const updatedUser = await updateUser(user.user.token!, data);
-    if (updatedUser.error) {
-      alert(updatedUser.error);
-    } else {
-      user.setUser({ ...updatedUser, token: user.user.token! });
-    }
-  };
+  const [oldPassword, setOldPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
 
   const changeDetailsHandler = async () => {
-    const data: any = {};
-    if (name) data.name = name;
-    if (email) data.email = email;
-    await submitHandler(data);
+    console.log(oldPassword, newPassword);
+    await changePassword(user.user.token!, oldPassword, newPassword);
     onClose();
   };
 
@@ -39,25 +29,24 @@ export default function ChangeDetails({
     <Overlay isOpen={isOpen} onClose={onClose} title="Change User Details">
       <FormControl className="flex flex-col gap-5">
         <InputField
-          label="New Name"
-          type="text"
+          label="Old Password"
+          type="password"
           onChange={(e) => {
-            setName(e.target.value);
+            setOldPassword(e.target.value);
           }}
         >
           <BsPersonFill />
         </InputField>
 
         <InputField
-          label="New Email"
-          type="email"
+          label="New Password"
+          type="password"
           onChange={(e) => {
-            setEmail(e.target.value);
+            setNewPassword(e.target.value);
           }}
         >
-          <BsEnvelopeFill />
+          <BsPersonFillLock />
         </InputField>
-
         <SubmitButton onClick={changeDetailsHandler}>Submit</SubmitButton>
       </FormControl>
     </Overlay>

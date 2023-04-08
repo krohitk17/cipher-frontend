@@ -6,7 +6,7 @@ import "./App.css";
 import Navbar from "./components/Navbar";
 import SelfProfilePage from "./pages/ProfilePage/SelfProfilePage";
 import ProfilePage from "./pages/ProfilePage/ProfilePage";
-import { LoadingContext, LoadingProvider } from "./contexts/LoadingContext";
+import { LoadingContext } from "./contexts/LoadingContext";
 import { UserProvider } from "./contexts/UserContext";
 import Loading from "./components/Loading";
 import HomePage from "./pages/HomePage/HomePage";

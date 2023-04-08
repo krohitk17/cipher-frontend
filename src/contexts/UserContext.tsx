@@ -52,7 +52,7 @@ export function UserProvider({ children }: { children: any }) {
       const token = localStorage.getItem("token");
       if (token) {
         const User = await getUser(token);
-        if (!User || User!.error) {
+        if (User.error) {
           localStorage.removeItem("token");
         } else {
           setUser({ ...User, token });

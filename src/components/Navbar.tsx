@@ -11,6 +11,7 @@ import {
 import { UserContext } from "../contexts/UserContext";
 import ChangeDetails from "./ChangeDetails";
 import ChangeAvatar from "./ChangeAvatar";
+import ChangePassword from "./ChangePassword";
 
 export default function Navbar() {
   const user = useContext(UserContext);
@@ -23,6 +24,11 @@ export default function Navbar() {
     isOpen: isAvatarOverlayOpen,
     onOpen: onAvatarOverlayOpen,
     onClose: onAvatarOverlayClose,
+  } = useDisclosure();
+  const {
+    isOpen: isPasswordOverlayOpen,
+    onOpen: onPasswordOverlayOpen,
+    onClose: onPasswordOverlayClose,
   } = useDisclosure();
 
   const logoutButtonHandler = () => {
@@ -56,6 +62,7 @@ export default function Navbar() {
             </MenuItem>
             <MenuItem onClick={onDetailOverlayOpen}>Change Details</MenuItem>
             <MenuItem onClick={onAvatarOverlayOpen}>Change Avatar</MenuItem>
+            <MenuItem onClick={onPasswordOverlayOpen}>Change Password</MenuItem>
             <MenuItem onClick={logoutButtonHandler}>Logout</MenuItem>
           </MenuList>
         </Menu>
@@ -69,6 +76,11 @@ export default function Navbar() {
       <ChangeDetails
         isOpen={isDetailOverlayOpen}
         onClose={onDetailOverlayClose}
+      />
+
+      <ChangePassword
+        isOpen={isPasswordOverlayOpen}
+        onClose={onPasswordOverlayClose}
       />
     </div>
   );
