@@ -19,11 +19,12 @@ export const registerUser = async (
   }
 };
 
-export const getUser = async (token: string) => {
+export const getUser = async (token: string, id?: string) => {
   try {
     const response = await axios.get(baseurl, {
       headers: {
         Authorization: "Bearer " + token,
+        id,
       },
     });
     return response.data;

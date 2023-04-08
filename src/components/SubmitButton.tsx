@@ -3,17 +3,17 @@ import { ReactNode } from "react";
 
 export default function SubmitButton({
   children,
-  onClickHandler,
+  onClick,
   className,
 }: {
   children: ReactNode;
-  onClickHandler: () => void;
+  onClick: () => void | Promise<void>;
   className?: string;
 }) {
   return (
     <Button
       type="submit"
-      onClick={onClickHandler}
+      onClick={onClick}
       className={className}
       colorScheme="blue"
     >

@@ -10,7 +10,7 @@ import InputField from "../../../components/InputField";
 
 export default function SocialsField({
   socials,
-  onChange,
+  onChange = (e: any) => {},
   disabled,
 }: {
   disabled?: boolean;
@@ -22,7 +22,7 @@ export default function SocialsField({
     linkedin: string;
     website: string;
   };
-  onChange: (socials: {
+  onChange?: (socials: {
     github: string;
     facebook: string;
     twitter: string;
@@ -35,78 +35,66 @@ export default function SocialsField({
     <div className="flex flex-row justify-between gap-10">
       <div className="w-full">
         <InputField
+          label="GitHub"
           onChange={(e: any) => {
             onChange({ ...socials, github: e.target.value });
           }}
           disabled={disabled}
           value={socials.github}
         >
-          <div className="flex flex-row gap-2 items-center">
-            <BsGithub />
-            GitHub
-          </div>
+          <BsGithub />
         </InputField>
         <InputField
+          label="LinkedIn"
           onChange={(e: any) => {
             onChange({ ...socials, linkedin: e.target.value });
           }}
           disabled={disabled}
           value={socials.linkedin}
         >
-          <div className="flex flex-row gap-2 items-center">
-            <BsLinkedin />
-            LinkedIn
-          </div>
+          <BsLinkedin />
         </InputField>
         <InputField
+          label="Facebook"
           onChange={(e: any) => {
             onChange({ ...socials, facebook: e.target.value });
           }}
           disabled={disabled}
           value={socials.facebook}
         >
-          <div className="flex flex-row gap-2 items-center">
-            <BsFacebook />
-            Facebook
-          </div>
+          <BsFacebook />
         </InputField>
       </div>
       <div className="w-full">
         <InputField
+          label="Twitter"
           onChange={(e: any) => {
             onChange({ ...socials, twitter: e.target.value });
           }}
           disabled={disabled}
           value={socials.twitter}
         >
-          <div className="flex flex-row gap-2 items-center">
-            <BsTwitter />
-            Twitter
-          </div>
+          <BsTwitter />
         </InputField>
         <InputField
+          label="Instagram"
           onChange={(e: any) => {
             onChange({ ...socials, instagram: e.target.value });
           }}
           disabled={disabled}
           value={socials.instagram}
         >
-          <div className="flex flex-row gap-2 items-center">
-            <BsInstagram />
-            InstaGram
-          </div>
+          <BsInstagram />
         </InputField>
         <InputField
+          label="Website"
           onChange={(e: any) => {
             onChange({ ...socials, website: e.target.value });
           }}
           disabled={disabled}
           value={socials.website}
         >
-          <div className="flex flex-row gap-2 items-center">
-            <BsGlobe />
-            Website
-          </div>
+          <BsGlobe />
         </InputField>
       </div>
     </div>

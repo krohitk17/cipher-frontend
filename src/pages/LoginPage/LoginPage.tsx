@@ -1,19 +1,21 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import Overlay from "../../components/Overlay";
 import SubmitButton from "../../components/SubmitButton";
 import InputField from "../../components/InputField";
 import { loginUser } from "../../routes/auth";
+import { BsEnvelopeFill, BsPersonFillLock } from "react-icons/bs";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const token = localStorage.getItem("token");
-
-  if (token) {
-    window.location.href = "/profile";
-  }
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      window.location.href = "/profile";
+    }
+  });
 
   const loginButtonHandler = async () => {
     const userToken = await loginUser(email, password);
@@ -27,26 +29,33 @@ export default function LoginPage() {
   };
 
   return (
-    <Overlay show={true} onClose={() => {}} title="Login">
+    <Overlay
+      className="flex flex-col gap-5"
+      show={true}
+      onClose={() => {}}
+      title="Login"
+    >
       <InputField
+        label="Email"
         type="email"
         onChange={(e) => {
           setEmail(e.target.value);
         }}
       >
-        Email
+        <BsEnvelopeFill />
       </InputField>
 
       <InputField
+        label="Password"
         type="password"
         onChange={(e) => {
           setPassword(e.target.value);
         }}
       >
-        Password
+        <BsPersonFillLock />
       </InputField>
 
-      <SubmitButton onClickHandler={loginButtonHandler} className="w-full my-5">
+      <SubmitButton onClick={loginButtonHandler} className="w-full">
         Login
       </SubmitButton>
       <p>

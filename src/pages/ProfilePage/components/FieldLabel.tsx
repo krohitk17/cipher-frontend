@@ -28,7 +28,7 @@ export default function FieldLabel({
         ) : (
           <div className="gap-5 flex flex-row">
             <SubmitButton
-              onClickHandler={() => {
+              onClick={() => {
                 if (edit) {
                   setValue!(value);
                 }
@@ -38,7 +38,7 @@ export default function FieldLabel({
               {edit ? "Cancel" : "Edit"}
             </SubmitButton>
             {edit ? (
-              <SubmitButton onClickHandler={onSubmit!}>Submit</SubmitButton>
+              <SubmitButton onClick={onSubmit!}>Submit</SubmitButton>
             ) : (
               <></>
             )}

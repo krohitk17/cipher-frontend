@@ -1,6 +1,4 @@
-import { useContext } from "react";
 import { Avatar } from "@chakra-ui/react";
-import { UserContext } from "../../../contexts/UserContext";
 
 const Bold = ({ children }: { children: any }) => (
   <h1 className="font-bold text-2xl">{children}</h1>
@@ -42,14 +40,14 @@ const Link = ({
 );
 
 export default function UserCreds({
+  user,
   children,
   disabled,
 }: {
+  user: any;
   children: any;
   disabled?: boolean;
 }) {
-  const user = useContext(UserContext).user;
-
   return (
     <div className="bg-blue-100 flex justify-between items-center gap-10 sticky z-50 top-0 px-10 py-5">
       <div className="flex items-center gap-5">

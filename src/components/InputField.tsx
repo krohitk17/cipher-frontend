@@ -1,8 +1,9 @@
-import { FormLabel, Input } from "@chakra-ui/react";
+import { Input, InputGroup, InputLeftAddon } from "@chakra-ui/react";
 
 export default function InputField({
   className,
   children,
+  label,
   type = "text",
   onChange,
   disabled,
@@ -10,26 +11,25 @@ export default function InputField({
 }: {
   className?: string;
   children: any;
+  label: string;
   type?: string;
   onChange: (e: any) => void;
   disabled?: boolean;
   value?: string;
 }) {
   return (
-    <>
-      <FormLabel className="pt-2">{children}</FormLabel>
+    <InputGroup className={className}>
+      <InputLeftAddon children={children} />
       <Input
         _disabled={{
           textColor: "black",
         }}
-        className={className}
         onChange={onChange}
-        placeholder="Enter"
+        placeholder={label}
         type={type}
-        bgColor={"white"}
         disabled={disabled}
         defaultValue={value}
       />
-    </>
+    </InputGroup>
   );
 }

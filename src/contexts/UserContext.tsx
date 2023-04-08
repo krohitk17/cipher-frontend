@@ -1,4 +1,6 @@
-import { useState, createContext } from "react";
+import { useState, createContext, useEffect, useContext } from "react";
+import { getUser } from "../routes/profile";
+import { LoadingContext } from "./LoadingContext";
 
 class User {
   token: string;
@@ -42,6 +44,26 @@ export const UserContext = createContext({
 
 export function UserProvider({ children }: { children: any }) {
   const [user, setUser] = useState(new User());
+  const loading = useContext(LoadingContext);
+
+  useEffect(() => {
+    (async () => {
+      loading.setIsLoading(true);
+      const token = localStorage.getItem("token");
+      if (token) {
+        const User = await getUser(token);
+        if (User.error) {
+          console.log(User.error);
+          localStorage.removeItem("token");
+        } else {
+          console.log(User);
+          setUser({ ...User, token });
+        }
+      }
+      loading.setIsLoading(false);
+    })();
+    console.log(user);
+  }, []);
 
   const context = {
     user,

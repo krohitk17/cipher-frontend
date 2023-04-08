@@ -1,126 +1,74 @@
 import { useContext, useEffect, useState } from "react";
-import { FormControl, FormLabel, Input } from "@chakra-ui/react";
 
-import { UserContext } from "../../contexts/UserContext";
-import { getUser, updateUser } from "../../routes/profile";
 import UserCreds from "./components/UserCreds";
-import Overlay from "../../components/Overlay";
 import SubmitButton from "../../components/SubmitButton";
 import AboutField from "./components/AboutField";
 import SocialsField from "./components/SocialsField";
 import FieldLabel from "./components/FieldLabel";
-import Navbar from "./components/Navbar";
+import { getUser, updateUser } from "../../routes/profile";
+import { useParams } from "react-router-dom";
+import { UserContext } from "../../contexts/UserContext";
 
 export default function ProfilePage() {
-  const user = useContext(UserContext);
-  const [overlay, setOverlay] = useState(false);
-  const [about, setAbout] = useState("");
-  const [aboutEdit, setAboutEdit] = useState(false);
-  const [socials, setSocials] = useState({
-    github: "",
-    linkedin: "",
-    facebook: "",
-    twitter: "",
-    instagram: "",
-    website: "",
+  const host = useContext(UserContext).user;
+  const [user, setUser] = useState({
+    name: "",
+    username: "",
+    description: "",
+    socials: {
+      github: "",
+      linkedin: "",
+      facebook: "",
+      twitter: "",
+      instagram: "",
+      website: "",
+    },
+    followers: [],
+    following: [],
   });
-  const [socialsEdit, setSocialsEdit] = useState(false);
+  const id = useParams().id;
 
   useEffect(() => {
     const fetchUser = async (token: string) => {
-      const User = await getUser(token);
+      const User = await getUser(token, id);
       if (User.error) {
-        localStorage.removeItem("token");
+        alert(User.error.message);
         window.location.href = "/";
       } else {
-        user.setUser({ ...User, token });
+        setUser({ ...User, token });
       }
     };
-    const token = localStorage.getItem("token");
-    if (!token) {
+    if (host.token) {
+      fetchUser(host.token);
+    } else {
       alert("Please Login First!");
       window.location.href = "/";
-    } else {
-      fetchUser(token);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  useEffect(() => {
-    setAbout(user.user.description);
-    setSocials(user.user.socials);
-  }, [user]);
-
-  const submitHandler = async (
-    setEdit: (value: boolean) => void,
-    data: any
-  ) => {
-    const updatedUser = await updateUser(user.user.token!, data);
+  const followHandler = async () => {
+    console.log("Follow");
+    const updatedUser = await updateUser(host.token, {
+      followers: [...host.followers, id],
+    });
     if (updatedUser.error) {
       alert(updatedUser.error);
-    } else {
-      user.setUser(updatedUser);
-      setEdit(false);
     }
-  };
-
-  const logoutButtonHandler = () => {
-    localStorage.removeItem("token");
-    alert("Successfully logged out");
-    window.location.href = "/";
   };
 
   return (
     <>
-      <UserCreds>
-        <div className="flex flex-col gap-5">
-          <SubmitButton onClickHandler={logoutButtonHandler}>
-            Logout
-          </SubmitButton>
-
-          <SubmitButton onClickHandler={() => setOverlay(true)}>
-            Change Avatar
-          </SubmitButton>
-        </div>
+      <UserCreds user={user}>
+        <SubmitButton onClick={followHandler}>Follow</SubmitButton>
       </UserCreds>
 
-      <Overlay
-        show={overlay}
-        onClose={() => {
-          setOverlay(false);
-        }}
-        title="Change Profile Picture"
-      >
-        <FormControl>
-          <FormLabel>Select Image</FormLabel>
-          <Input type="file" />
-        </FormControl>
-      </Overlay>
-
-      <FieldLabel
-        label="About"
-        edit={aboutEdit}
-        setEdit={setAboutEdit}
-        value={user.user.description}
-        setValue={setAbout}
-        onSubmit={() => submitHandler(setAboutEdit, { description: about })}
-      >
-        <AboutField value={about} onChange={setAbout} disabled={!aboutEdit} />
+      <FieldLabel label="About" disabled={true}>
+        <AboutField value={user.description} disabled={true} />
       </FieldLabel>
 
-      <FieldLabel
-        label="Socials"
-        edit={socialsEdit}
-        setEdit={setSocialsEdit}
-        value={user.user.socials}
-        setValue={setSocials}
-        onSubmit={() => submitHandler(setSocialsEdit, { socials: socials })}
-      >
-        <SocialsField
-          socials={socials}
-          onChange={setSocials}
-          disabled={!socialsEdit}
-        />
+      <FieldLabel label="Socials" disabled={true}>
+        <SocialsField socials={user.socials} disabled={true} />
       </FieldLabel>
     </>
   );

@@ -2,11 +2,11 @@ import { Textarea } from "@chakra-ui/react";
 
 export default function AboutField({
   value,
-  onChange,
+  onChange = (e: any) => {},
   disabled,
 }: {
   value: string;
-  onChange: (value: string) => void;
+  onChange?: (value: string) => void;
   disabled?: boolean;
 }) {
   return (

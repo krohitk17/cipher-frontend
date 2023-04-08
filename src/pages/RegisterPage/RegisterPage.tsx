@@ -4,6 +4,7 @@ import Overlay from "../../components/Overlay";
 import SubmitButton from "../../components/SubmitButton";
 import InputField from "../../components/InputField";
 import { registerUser } from "../../routes/profile";
+import { BsEnvelopeFill, BsPersonFill, BsPersonFillLock } from "react-icons/bs";
 
 export default function LoginPage() {
   const [name, setName] = useState("");
@@ -21,38 +22,43 @@ export default function LoginPage() {
   };
 
   return (
-    <Overlay show={true} onClose={() => {}} title="Register">
+    <Overlay
+      show={true}
+      onClose={() => {}}
+      title="Register"
+      className="flex flex-col gap-5"
+    >
       <InputField
+        label="Name"
         type="text"
         onChange={(e) => {
           setName(e.target.value);
         }}
       >
-        Name
+        <BsPersonFill />
       </InputField>
 
       <InputField
+        label="Email"
         type="email"
         onChange={(e) => {
           setEmail(e.target.value);
         }}
       >
-        Email
+        <BsEnvelopeFill />
       </InputField>
 
       <InputField
+        label="Password"
         type="password"
         onChange={(e) => {
           setPassword(e.target.value);
         }}
       >
-        Password
+        <BsPersonFillLock />
       </InputField>
 
-      <SubmitButton
-        className="w-full my-5"
-        onClickHandler={registerButtonHandler}
-      >
+      <SubmitButton className="w-full" onClick={registerButtonHandler}>
         Register
       </SubmitButton>
       <p>
