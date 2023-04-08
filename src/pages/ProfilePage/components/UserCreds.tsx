@@ -1,4 +1,8 @@
-import { Avatar } from "@chakra-ui/react";
+import { Avatar, useDisclosure } from "@chakra-ui/react";
+import SearchPage from "../../SearchPage/SearchPage";
+import { User } from "../../../contexts/UserContext";
+import { useState } from "react";
+import { getUserFollowers, getUserFollowing } from "../../../routes/profile";
 
 const Bold = ({ children }: { children: any }) => (
   <h1 className="font-bold text-2xl">{children}</h1>
@@ -8,46 +12,35 @@ const Text = ({ children }: { children: any }) => (
   <h1 className="text-l">{children}</h1>
 );
 
-const Link = ({
-  children,
-  disabled,
-  href,
-}: {
-  children: any;
-  disabled?: boolean;
-  href: string;
-}) => (
-  <div
-    className="flex flex-col items-center"
-    onClick={
-      disabled
-        ? undefined
-        : () => {
-            window.location.href = window.location.href + href;
-          }
-    }
-    onMouseEnter={
-      disabled
-        ? undefined
-        : () => {
-            document.body.style.cursor = "pointer";
-          }
-    }
-    onMouseLeave={() => (document.body.style.cursor = "default")}
-  >
-    {children}
-  </div>
-);
-
 export default function UserCreds({
   user,
   children,
-  disabled,
 }: {
   user: any;
   children: any;
-  disabled?: boolean;
 }) {
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const [users, setUsers] = useState<any>([new User()]);
+  const [page, setPage] = useState<number>(1);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+
+  const detailHandler = async (type: string) => {
+    setIsLoading(true);
+    console.log(type);
+    var func: any;
+    if (type === "followers") {
+      func = getUserFollowers;
+    } else {
+      func = getUserFollowing;
+    }
+    const details = await func(user.token, 1);
+    setUsers(details);
+    console.log(details);
+    setPage(page + 1);
+    onOpen();
+    setIsLoading(false);
+  };
+
   return (
     <div className="bg-blue-100 flex justify-between items-center gap-10 sticky z-50 top-0 px-10 py-5">
       <div className="flex items-center gap-5">
@@ -58,16 +51,28 @@ export default function UserCreds({
         </div>
 
         <div className="flex gap-20 ml-20">
-          <Link disabled={disabled} href="/followers">
+          <button
+            onClick={async () => await detailHandler("followers")}
+            className="flex flex-col items-center"
+          >
             <Bold>{user.followers.length}</Bold>
             <Text>Followers</Text>
-          </Link>
+          </button>
 
-          <Link disabled={disabled} href="/following">
+          <button
+            onClick={async () => await detailHandler("following")}
+            className="flex flex-col items-center"
+          >
             <Bold>{user.following.length}</Bold>
             <Text>Following</Text>
-          </Link>
+          </button>
         </div>
+        <SearchPage
+          isLoading={isLoading}
+          isOpen={isOpen}
+          onClose={onClose}
+          users={[users]}
+        />
       </div>
       {children}
     </div>

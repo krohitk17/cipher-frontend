@@ -3,41 +3,37 @@ import { useState } from "react";
 import Overlay from "../../components/Overlay";
 import SubmitButton from "../../components/SubmitButton";
 import InputField from "../../components/InputField";
-import { registerUser } from "../../routes/profile";
-import { BsEnvelopeFill, BsPersonFill, BsPersonFillLock } from "react-icons/bs";
+import { loginUser } from "../../routes/auth";
+import { BsEnvelopeFill, BsPersonFillLock } from "react-icons/bs";
 
-export default function LoginPage() {
-  const [name, setName] = useState("");
+export default function LoginPage({
+  isOpen,
+  onClose,
+}: {
+  isOpen: boolean;
+  onClose: () => void;
+}) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const registerButtonHandler = async () => {
-    const user = await registerUser(name, email, password);
-    if (user.error) {
-      alert(user.error.message);
+  const loginButtonHandler = async () => {
+    const userToken = await loginUser(email, password);
+    if (userToken.error) {
+      alert(userToken.error.message);
     } else {
-      alert("Registration Successful!");
-      window.location.href = "/";
+      localStorage.setItem("token", userToken.token);
+      alert("Login Successful!");
+      window.location.href = "/profile";
     }
   };
 
   return (
     <Overlay
-      show={true}
-      onClose={() => {}}
-      title="Register"
       className="flex flex-col gap-5"
+      isOpen={isOpen}
+      onClose={onClose}
+      title="Login"
     >
-      <InputField
-        label="Name"
-        type="text"
-        onChange={(e) => {
-          setName(e.target.value);
-        }}
-      >
-        <BsPersonFill />
-      </InputField>
-
       <InputField
         label="Email"
         type="email"
@@ -58,12 +54,12 @@ export default function LoginPage() {
         <BsPersonFillLock />
       </InputField>
 
-      <SubmitButton className="w-full" onClick={registerButtonHandler}>
-        Register
+      <SubmitButton onClick={loginButtonHandler} className="w-full">
+        Login
       </SubmitButton>
       <p>
-        Already Registered,{" "}
-        <a href="/" className="text-blue-500">
+        Not Registered,{" "}
+        <a href="/register" className="text-blue-500">
           Click Here!
         </a>
       </p>

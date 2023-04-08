@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import { FormControl, FormLabel, Input } from "@chakra-ui/react";
+import { FormControl, FormLabel, Input, useDisclosure } from "@chakra-ui/react";
 
 import { UserContext } from "../../contexts/UserContext";
 import { updateUser } from "../../routes/profile";
@@ -9,10 +9,11 @@ import SubmitButton from "../../components/SubmitButton";
 import AboutField from "./components/AboutField";
 import SocialsField from "./components/SocialsField";
 import FieldLabel from "./components/FieldLabel";
+import { setUserAvatar } from "../../routes/avatar";
 
 export default function SelfProfilePage() {
   const user = useContext(UserContext);
-  const [overlay, setOverlay] = useState(false);
+  const { isOpen, onOpen, onClose } = useDisclosure();
   const [about, setAbout] = useState("");
   const [aboutEdit, setAboutEdit] = useState(false);
   const [socials, setSocials] = useState({
@@ -26,7 +27,6 @@ export default function SelfProfilePage() {
   const [socialsEdit, setSocialsEdit] = useState(false);
 
   useEffect(() => {
-    console.log(user.user);
     if (!user.user.token) {
       alert("Please Login First!");
       window.location.href = "/";
@@ -48,6 +48,15 @@ export default function SelfProfilePage() {
     }
   };
 
+  const setAvatarHandler = async () => {
+    const file = document.querySelector("input[type=file]") as HTMLInputElement;
+    console.log(file.files);
+    const formData = new FormData();
+    formData.append("avatar", file.files![0]);
+    await setUserAvatar(user.user.token!, formData);
+    window.location.reload();
+  };
+
   const logoutButtonHandler = () => {
     localStorage.removeItem("token");
     alert("Successfully logged out");
@@ -60,22 +69,15 @@ export default function SelfProfilePage() {
         <div className="flex flex-col gap-5">
           <SubmitButton onClick={logoutButtonHandler}>Logout</SubmitButton>
 
-          <SubmitButton onClick={() => setOverlay(true)}>
-            Change Avatar
-          </SubmitButton>
+          <SubmitButton onClick={onOpen}>Change Avatar</SubmitButton>
         </div>
       </UserCreds>
 
-      <Overlay
-        show={overlay}
-        onClose={() => {
-          setOverlay(false);
-        }}
-        title="Change Profile Picture"
-      >
+      <Overlay isOpen={isOpen} onClose={onClose} title="Change Profile Picture">
         <FormControl>
           <FormLabel>Select Image</FormLabel>
           <Input type="file" />
+          <SubmitButton onClick={setAvatarHandler}>Submit</SubmitButton>
         </FormControl>
       </Overlay>
 

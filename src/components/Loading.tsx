@@ -1,13 +1,16 @@
-import { useContext } from "react";
-import { LoadingContext } from "../contexts/LoadingContext";
+import { Spinner } from "@chakra-ui/react";
 
-export default function Loading({ children }: { children: any }) {
-  const loading = useContext(LoadingContext);
-
-  if (loading.isLoading) {
+export default function Loading({
+  children,
+  isLoading,
+}: {
+  children: any;
+  isLoading: boolean;
+}) {
+  if (isLoading) {
     return (
-      <div className="loading">
-        <div className="loading__spinner"></div>
+      <div className="h-full w-full items-center justify-center">
+        <Spinner />
       </div>
     );
   } else {

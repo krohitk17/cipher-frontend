@@ -49,8 +49,15 @@ export default function ProfilePage() {
 
   const followHandler = async () => {
     console.log("Follow");
+    const followers = host.followers;
+    if (followers.includes(id!)) {
+      const index = followers.indexOf(id!);
+      followers.splice(index, 1);
+    } else {
+      followers.push(id!);
+    }
     const updatedUser = await updateUser(host.token, {
-      followers: [...host.followers, id],
+      followers: followers,
     });
     if (updatedUser.error) {
       alert(updatedUser.error);
@@ -60,7 +67,9 @@ export default function ProfilePage() {
   return (
     <>
       <UserCreds user={user}>
-        <SubmitButton onClick={followHandler}>Follow</SubmitButton>
+        <SubmitButton onClick={followHandler}>
+          {host.followers.includes(id!) ? "Unfollow" : "Follow"}
+        </SubmitButton>
       </UserCreds>
 
       <FieldLabel label="About" disabled={true}>

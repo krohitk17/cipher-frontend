@@ -2,7 +2,7 @@ import { useState, createContext, useEffect, useContext } from "react";
 import { getUser } from "../routes/profile";
 import { LoadingContext } from "./LoadingContext";
 
-class User {
+export class User {
   token: string;
   name: string;
   email: string;
@@ -52,17 +52,15 @@ export function UserProvider({ children }: { children: any }) {
       const token = localStorage.getItem("token");
       if (token) {
         const User = await getUser(token);
-        if (User.error) {
-          console.log(User.error);
+        if (!User || User!.error) {
           localStorage.removeItem("token");
         } else {
-          console.log(User);
           setUser({ ...User, token });
         }
       }
       loading.setIsLoading(false);
     })();
-    console.log(user);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const context = {

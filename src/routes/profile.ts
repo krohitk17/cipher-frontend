@@ -45,3 +45,40 @@ export const updateUser = async (token: string, updatedUser: {}) => {
     return error.response.data;
   }
 };
+
+export const getUserFollowers = async (
+  token: string,
+  page: number,
+  id?: string
+) => {
+  try {
+    const response = await axios.get(baseurl + `/followers/${page}`, {
+      headers: {
+        Authorization: "Bearer " + token,
+        id,
+      },
+    });
+    console.log(response.data);
+    return response.data;
+  } catch (error: any) {
+    return error.response.data;
+  }
+};
+
+export const getUserFollowing = async (
+  token: string,
+  page: number,
+  id?: string
+) => {
+  try {
+    const response = await axios.get(baseurl + `/following/${page}`, {
+      headers: {
+        Authorization: "Bearer " + token,
+        id,
+      },
+    });
+    return response.data;
+  } catch (error: any) {
+    return error.response.data;
+  }
+};

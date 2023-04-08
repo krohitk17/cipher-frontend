@@ -6,14 +6,16 @@ export default function InputField({
   label,
   type = "text",
   onChange,
+  onSubmit,
   disabled,
   value,
 }: {
   className?: string;
-  children: any;
+  children?: any;
   label: string;
   type?: string;
-  onChange: (e: any) => void;
+  onChange?: (e: any) => void;
+  onSubmit?: (e: any) => void;
   disabled?: boolean;
   value?: string;
 }) {
