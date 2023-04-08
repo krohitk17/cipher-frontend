@@ -33,7 +33,7 @@ export default function SocialsField({
 }) {
   return (
     <div className="flex flex-row justify-between gap-10">
-      <div className="w-full">
+      <div className="w-full flex flex-col gap-2">
         <InputField
           label="GitHub"
           onChange={(e: any) => {
@@ -65,7 +65,7 @@ export default function SocialsField({
           <BsFacebook />
         </InputField>
       </div>
-      <div className="w-full">
+      <div className="w-full flex flex-col gap-2">
         <InputField
           label="Twitter"
           onChange={(e: any) => {

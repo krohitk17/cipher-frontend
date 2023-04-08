@@ -27,7 +27,7 @@ export default function SelfProfilePage() {
   const [socialsEdit, setSocialsEdit] = useState(false);
 
   useEffect(() => {
-    if (!user.user.token) {
+    if (!user.user) {
       alert("Please Login First!");
       window.location.href = "/";
     }
@@ -43,7 +43,7 @@ export default function SelfProfilePage() {
     if (updatedUser.error) {
       alert(updatedUser.error);
     } else {
-      user.setUser(updatedUser);
+      user.setUser({ ...updatedUser, token: user.user.token! });
       setEdit(false);
     }
   };
