@@ -17,7 +17,7 @@ export default function UserCreds({
   children,
 }: {
   user: any;
-  children: any;
+  children?: any;
 }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [users, setUsers] = useState<any>([new User()]);
@@ -42,7 +42,7 @@ export default function UserCreds({
   };
 
   return (
-    <div className="bg-blue-100 flex justify-between items-center gap-10 sticky z-50 top-0 px-10 py-5">
+    <div className="bg-blue-100 flex justify-between items-center gap-10 px-10 py-5">
       <div className="flex items-center gap-5">
         <Avatar size="2xl" src={user.avatar} />
         <div>

@@ -1,16 +1,38 @@
 import { useContext } from "react";
-import { Avatar, Button, useDisclosure } from "@chakra-ui/react";
-import { BsSearch } from "react-icons/bs";
+import {
+  Avatar,
+  Menu,
+  MenuButton,
+  MenuItem,
+  MenuList,
+  useDisclosure,
+} from "@chakra-ui/react";
 
 import { UserContext } from "../contexts/UserContext";
-import SearchPage from "../pages/SearchPage/SearchPage";
+import ChangeDetails from "./ChangeDetails";
+import ChangeAvatar from "./ChangeAvatar";
 
 export default function Navbar() {
   const user = useContext(UserContext);
-  const { isOpen, onOpen, onClose } = useDisclosure();
+  const {
+    isOpen: isDetailOverlayOpen,
+    onOpen: onDetailOverlayOpen,
+    onClose: onDetailOverlayClose,
+  } = useDisclosure();
+  const {
+    isOpen: isAvatarOverlayOpen,
+    onOpen: onAvatarOverlayOpen,
+    onClose: onAvatarOverlayClose,
+  } = useDisclosure();
+
+  const logoutButtonHandler = () => {
+    localStorage.removeItem("token");
+    alert("Successfully logged out");
+    window.location.href = "/";
+  };
 
   return (
-    <div className="sticky top-0 z-50 px-10 py-2 flex items-center justify-between bg-gray-100 border-b-2">
+    <div className="sticky top-0 z-30 px-10 py-2 flex items-center justify-between bg-gray-100 border-b-2">
       <a className="flex items-center gap-2 font-sans font-bold" href="/">
         <img
           className="w-10 h-10"
@@ -20,25 +42,33 @@ export default function Navbar() {
         CipherSchools
       </a>
       <div className="flex items-center gap-5">
-        <Button className="border rounded-full" onClick={onOpen}>
-          <BsSearch />
-        </Button>
-        <Avatar
-          src={user.user.avatar ?? null}
-          onClick={() => {
-            if (user.user.token) {
-              window.location.href = "/profile";
-            } else {
-              window.location.href = "/";
-            }
-          }}
-        ></Avatar>
+        <Menu z-index="dropDown">
+          <MenuButton>
+            <Avatar src={user.user.avatar ?? null} />
+          </MenuButton>
+          <MenuList>
+            <MenuItem
+              onClick={() => {
+                window.location.href = "/profile";
+              }}
+            >
+              My Profile
+            </MenuItem>
+            <MenuItem onClick={onDetailOverlayOpen}>Change Details</MenuItem>
+            <MenuItem onClick={onAvatarOverlayOpen}>Change Avatar</MenuItem>
+            <MenuItem onClick={logoutButtonHandler}>Logout</MenuItem>
+          </MenuList>
+        </Menu>
       </div>
-      <SearchPage
-        isLoading={false}
-        isOpen={isOpen}
-        onClose={onClose}
-        users={[]}
+
+      <ChangeAvatar
+        isOpen={isAvatarOverlayOpen}
+        onClose={onAvatarOverlayClose}
+      />
+
+      <ChangeDetails
+        isOpen={isDetailOverlayOpen}
+        onClose={onDetailOverlayClose}
       />
     </div>
   );
